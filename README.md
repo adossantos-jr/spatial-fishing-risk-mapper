@@ -1,8 +1,8 @@
-## Spatial vulnerable species ratio
+## Mapping high-risk fishing areas through species vulnerability
 This is an R routine built for quickly mapping high-risk fishing areas based on the ratio of vulnerable species caught in fishing points. This approach was originally intended for spatializing vulnerability in highly rich multispecies coastal fisheries using Productivity-Susceptibility Analysis (PSA) as a base for vulnerability categories. However, this routine can be applied to any type of fishery, and using any kind of vulnerability classification for species (such as IUCN Red List categories). 
 
 ### How to use
-This routine is built in the R language. To use it, you must download and install the latest version of R at https://www.r-project.org/, and the latest version of the RStudio integrated development environment (IDE) at https://posit.co/download/rstudio-desktop/. You can then open the script (spatial_vulnerable_species_ratio.R) in RStudio.
+This routine is built in the R language. To use it, you must download and install the latest version of [R](https://www.r-project.org/), and the latest version of the [RStudio integrated development environment (IDE)](https://posit.co/download/rstudio-desktop/). You can then open the script (`spatial_vulnerable_species_ratio.R`) in RStudio.
 
 #### Importing your data
 ##### Setting your working directory
@@ -10,15 +10,15 @@ The first step is setting your working directory. This directory is where the in
 ```
 setwd('your wd')
 ```
-Where 'your wd' must be replaced with a directory path. An example of a working directory path in Windows is:
+Where `your wd` must be replaced with a directory path. An example of a working directory path in Windows is:
 ```
 setwd('C:/Users/alexandre/Documents/alexandre/maps')
 ```
-To better understand working directories in R, a comprehensive guide can be found at https://intro2r.com/work-d.html.
+To better understand working directories in R, a comprehensive guide can be found [here](https://intro2r.com/work-d.html).
 ##### Data structure and importing
 This routine requires two simple data frames: a species matrix and a vulnerability classification matrix. Both are .csv (comma-separated values) files. If you used software such as Microsoft Excel or Google Sheets to create your data frames, remember to convert them to a .csv file before importing to R. The data frames are:
 
-*The vulnerability classsification matrix* - The vulnerability classification matrix must contain two columns: a species column and a vulnerability category column, assigning a respective vulnerability category for each species. Species must be assigned one of three vulnerability categories: 'Low', 'Moderate' and 'High'. Due to the way that high-risk areas are defined, this can also be a binary classification of 'Low' and 'High' (If using IUCN Red List categories, for example, threatened species (>=VU) can be 'High', and non-threatened species can be 'Low'). For a template, see the test data (test_vulnerability_class.csv).
+*The vulnerability classsification matrix* - The vulnerability classification matrix must contain two columns: a species column and a vulnerability category column, assigning a respective vulnerability category for each species. Species must be assigned one of three vulnerability categories: 'Low', 'Moderate' and 'High', since it is based on PSA (check the resources for more information). Due to the way that high-risk areas are defined, this can also be a binary classification of 'Low' and 'High' (If using IUCN Red List categories, for example, threatened species (>=VU) can be 'High', and non-threatened species can be 'Low'). For a template, see the test data (`test_vulnerability_class.csv`). 
 Importing the vulnerabilibty category data is done in this section (line 10):
 ```
 vuln_df = read.csv('test_vulnerability_class.csv')
@@ -27,9 +27,9 @@ This is defaulted to the name of the test data. Change the name accordingly to t
 ```
 vuln_df = read.csv('my_iucn_classification.csv')
 ```
-*The species matrix*: The species matrix is structured as those tradionally used in ecology, with species as columns and sites as rows. However, in this case, the first three columns of the species matrix must be 'time', 'latitude' and 'longitude' (see the test data for a template: test_species_matrix.csv). 
-- The column 'time' refers to any temporal classification of the fishing points (i. e. seasons, months, years). This column will be used to generate one map per each temporal classification (i. e. for seasons, one map per season), besides the main map. If there is no temporal classification in your data, this column must still exist, but it must be empty (filled with NA values). If 'time' is empty, only the main map (your full study area with all inputed points) will be generated.
-- The columns 'latitude' and 'longitude' are the respective latitude and longitude of fishing points in decimal degrees (fully numerical values; negative values for South and West hemispheres). If your coordinates are in another format, they must be converted to decimal. A useful coordinate converter from degrees/minutes/seconds to decimal can be found in the resources section. For more information on coordinate systems, see https://www.uaf.edu/ces/publications/database/agriculture-livestock/understanding-mapping-systems.php. 
+*The species matrix*: The species matrix is structured as those tradionally used in ecology, with species as columns and sites as rows. However, in this case, the first three columns of the species matrix must be `time`, `latitude` and `longitude` (see the test data for a template: test_species_matrix.csv). 
+- The column `time` refers to any temporal classification of the fishing points (i. e. seasons, months, years). This column will be used to generate one map per each temporal classification (i. e. for seasons, one map per season), besides the main map. If there is no temporal classification in your data, this column must still exist, but it must be empty (filled with `NA` values). If `time` is empty, only the main map (your full study area with all inputed points) will be generated.
+- The columns `latitude` and `longitude` are the respective latitude and longitude of fishing points in decimal degrees (fully numerical values; negative values for South and West hemispheres). If your coordinates are in another format, they must be converted to decimal. A useful coordinate converter from degrees/minutes/seconds to decimal can be found in the resources section. For more information on coordinate systems can be found [here](https://www.uaf.edu/ces/publications/database/agriculture-livestock/understanding-mapping-systems.php). 
 - The species columns can be filled with any kind of abundance/density/biomass/count metric. For a less biased analysis, some kind of standardization by fishing effort is recommended, such as Catch per Unit of Effort (CPUE) or Catch per Unit of Area (CPUA).
 
 Importing the species matrix is done in this section (line 14):
@@ -68,14 +68,20 @@ my_bathy_res = 5
 my_thresholds = c(0, 0.25, 0.5, 1)
 ```
 Though beware that the limits (0 and 1) should not be changed; only the values in the middle.
-
-- Map resolution - Finally, you can select the desired resolution of your maps
+- Map resolution - Finally, you can select the desired resolution of your maps in dots per inches (DPI). Higher DPI will result in a higher resolution map, but may take longer to process. To change it, simply change the number of the default `600` (line 40): 
+```
+my_dpi = 600
+````
+**And done!** Now, you can press Ctrl + A and then Ctrl + Enter to run all the script and get the results. A map with a delimited high-risk fishing area will appear in your working directory, alongside a .csv file with the Vulnerable Species Ratio value for each point. If temporal classifications are present, a figure with maps by temporal classification will also be generated.
 
 ### Limitations
+Since this method of defining high-risk fishing areas is based on simply encircling high-risk points, the spatialization itself may fail/not be interpretable if:
+- **Low spatial autocorrelation of vulnerability in all conditions**, that is, points next to each other are in no way more similar to each other than to other points regarding the Vulnerable Species Ratio. This can be due to the relation of the spatial scale with density of points (points too spread across a wide scale or too concentrated at a small scale), or due to the complexity of the fishery/ecosystem/community itself. Geostatistical techniques would be needed to properly spatialize vulnerability in these conditions.
+
+- **Estuarine or inland waters**, since this framework is focused on marine areas. A different mapping framework would be needed to spatialize vulnerability in continental waters.
 
 ### Resources
-
-
-[Coordinate converter](https://www.fcc.gov/media/radio/dms-decimal)
-
-
+- [A coordinate converter](https://www.fcc.gov/media/radio/dms-decimal)
+- [PSA Web application for single species](https://nmfs-ost.github.io/noaa-fit/PSA) 
+- [PSA for multiple species at once](https://github.com/adossantos-jr/psa-multispecies)
+- [IUCN Red List API](https://github.com/ropensci/rredlist)
