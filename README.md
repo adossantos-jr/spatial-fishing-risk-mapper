@@ -80,6 +80,8 @@ Since this method of defining high-risk fishing areas is based on simply encircl
 
 - **Estuarine or inland waters**, since this framework is focused on marine areas. A different mapping framework would be needed to spatialize vulnerability in continental waters.
 
+Nevertheless, the information of Vulnerable Species Ratio is still valid and can be useful in these conditions. So, even if mapping is unviable using this method, the resulting .csv file can still be of use.
+
 ### Resources
 - [A coordinate converter](https://www.fcc.gov/media/radio/dms-decimal)
 - [PSA Web application for single species](https://nmfs-ost.github.io/noaa-fit/PSA) 
