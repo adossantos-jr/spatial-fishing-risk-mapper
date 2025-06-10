@@ -23,7 +23,7 @@ Importing the vulnerabilibty category data is done in this section (line 10):
 ```
 vuln_df = read.csv('test_vulnerability_class.csv')
 ```
-This is defaulted to the name of the test data. Change the name accordingly to the name of your own file, such as:
+This is defaulted to the name of the test data. You can change this name to the name of your own file, such as:
 ```
 vuln_df = read.csv('my_iucn_classification.csv')
 ```
