@@ -16,7 +16,7 @@ setwd('C:/Users/alexandre/Documents/alexandre/maps')
 ```
 To better understand working directories in R, a comprehensive guide can be found [here](https://intro2r.com/work-d.html).
 ##### Data structure and importing
-This routine requires two simple data frames: a vulnerability classification matrix and a species matrix. Both are .csv (comma-separated values) files. If you used software such as Microsoft Excel or Google Sheets to create your data frames, remember to convert them to a .csv file before importing to R. The data frames are:
+This routine requires two simple data frames: a vulnerability classification matrix and a species matrix. Both are .csv (comma-separated values) files. If you use software such as Microsoft Excel or Google Sheets to create your data frames, remember to convert them to a .csv file before importing to R. The data frames are:
 
 *The vulnerability classsification matrix* - The vulnerability classification matrix must contain two columns: a species column and a vulnerability category column, assigning a respective vulnerability category for each species. Species must be assigned one of three vulnerability categories: 'Low', 'Moderate' and 'High', since it is based on PSA (check the resources for more information). Due to the way that high-risk areas are defined, this can also be a binary classification of 'Low' and 'High' (If using IUCN Red List categories, for example, threatened species (>=VU) can be 'High', and non-threatened species can be 'Low'). For a template, see the test data (`test_vulnerability_class.csv`). 
 Importing the vulnerabilibty category data is done in this section (line 10):
