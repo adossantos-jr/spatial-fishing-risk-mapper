@@ -1,5 +1,5 @@
 # Mapping spatial Vulnerable Species Ratio 
-# for more information, go to https://github.com/adossantos-jr/map-vulnerable-species-ratio
+# for more information, go to https://github.com/adossantos-jr/spatial-fishing-risk-mapper
 
 # Setting your working directory
 
