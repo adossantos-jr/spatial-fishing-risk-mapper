@@ -16,7 +16,7 @@ setwd('C:/Users/alexandre/Documents/alexandre/maps')
 ```
 To better understand working directories in R, a comprehensive guide can be found [here](https://intro2r.com/work-d.html).
 ##### Data structure and importing
-This routine requires two simple data frames: a species matrix and a vulnerability classification matrix. Both are .csv (comma-separated values) files. If you used software such as Microsoft Excel or Google Sheets to create your data frames, remember to convert them to a .csv file before importing to R. The data frames are:
+This routine requires two simple data frames: a vulnerability classification matrix and a species matrix. Both are .csv (comma-separated values) files. If you used software such as Microsoft Excel or Google Sheets to create your data frames, remember to convert them to a .csv file before importing to R. The data frames are:
 
 *The vulnerability classsification matrix* - The vulnerability classification matrix must contain two columns: a species column and a vulnerability category column, assigning a respective vulnerability category for each species. Species must be assigned one of three vulnerability categories: 'Low', 'Moderate' and 'High', since it is based on PSA (check the resources for more information). Due to the way that high-risk areas are defined, this can also be a binary classification of 'Low' and 'High' (If using IUCN Red List categories, for example, threatened species (>=VU) can be 'High', and non-threatened species can be 'Low'). For a template, see the test data (`test_vulnerability_class.csv`). 
 Importing the vulnerabilibty category data is done in this section (line 10):
@@ -27,9 +27,9 @@ This is defaulted to the name of the test data. Change the name accordingly to t
 ```
 vuln_df = read.csv('my_iucn_classification.csv')
 ```
-*The species matrix*: The species matrix is structured as those tradionally used in ecology, with species as columns and sites as rows. However, in this case, the first three columns of the species matrix must be `time`, `latitude` and `longitude` (see the test data for a template: test_species_matrix.csv). 
+*The species matrix*: The species matrix is structured very much like data frames tradionally used in ecology, with species as columns and sites as rows. However, in this case, the first three columns of the species matrix must be `time`, `latitude` and `longitude` (see the test data for a template: test_species_matrix.csv). 
 - The column `time` refers to any temporal classification of the fishing points (i. e. seasons, months, years). This column will be used to generate one map per each temporal classification (i. e. for seasons, one map per season), besides the main map. If there is no temporal classification in your data, this column must still exist, but it must be empty (filled with `NA` values). If `time` is empty, only the main map (your full study area with all inputed points) will be generated.
-- The columns `latitude` and `longitude` are the respective latitude and longitude of fishing points in decimal degrees (fully numerical values; negative values for South and West hemispheres). If your coordinates are in another format, they must be converted to decimal. A useful coordinate converter from degrees/minutes/seconds to decimal can be found in the resources section. For more information on coordinate systems can be found [here](https://www.uaf.edu/ces/publications/database/agriculture-livestock/understanding-mapping-systems.php). 
+- The columns `latitude` and `longitude` are the respective latitude and longitude of fishing points in decimal degrees (fully numerical values; negative values for South and West hemispheres). If your coordinates are in another format, they must be converted to decimal. A useful coordinate converter from degrees/minutes/seconds to decimal can be found in the resources section. More information on coordinate systems can be found [here](https://www.uaf.edu/ces/publications/database/agriculture-livestock/understanding-mapping-systems.php). 
 - The species columns can be filled with any kind of abundance/density/biomass/count metric. For a less biased analysis, some kind of standardization by fishing effort is recommended, such as Catch per Unit of Effort (CPUE) or Catch per Unit of Area (CPUA).
 
 Importing the species matrix is done in this section (line 14):
@@ -49,7 +49,7 @@ international_area = 'no'
 ```
 my_country = 'Brazil'
 ```
-As long as the country name is in English and state border shapefiles can be retrieved through Natural Earth, state borders will appear. 
+As long as the country name is in English and state border shapefiles can be retrieved through [Natural Earth](https://www.naturalearthdata.com/downloads/10m-cultural-vectors/), state borders will appear. 
 
 - Coastal vs oceanic area - Is your study area coastal or oceanic? This parameter is used to select at what level bathymetry values will appear on the map. If coastal, values from 0 to -100 m will appear; if oceanic, values deeper than -100 m will appear. This can be specified in this section (line 28):
 ```
@@ -85,5 +85,7 @@ Nevertheless, the information of Vulnerable Species Ratio is still valid and can
 ### Resources
 - [A coordinate converter](https://www.fcc.gov/media/radio/dms-decimal)
 - [PSA Web application for single species](https://nmfs-ost.github.io/noaa-fit/PSA) 
-- [PSA for multiple species at once](https://github.com/adossantos-jr/psa-multispecies)
-- [IUCN Red List API](https://github.com/ropensci/rredlist)
+- [PSA API for multiple species at once](https://github.com/adossantos-jr/psa-multispecies)
+- [IUCN Red List R API](https://github.com/ropensci/rredlist)
+- [Natural Earth R API](https://github.com/ropensci/rnaturalearth)
+  
