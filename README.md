@@ -84,7 +84,7 @@ Nevertheless, the information of Vulnerable Species Ratio is still valid and can
 
 ### Resources
 - [A coordinate converter](https://www.fcc.gov/media/radio/dms-decimal)
-- [PSA Web application for single species](https://nmfs-ost.github.io/noaa-fit/PSA) 
+- [PSA Web Application for single species](https://nmfs-ost.github.io/noaa-fit/PSA) 
 - [PSA API for multiple species at once](https://github.com/adossantos-jr/psa-multispecies)
 - [IUCN Red List R API](https://github.com/ropensci/rredlist)
 - [Natural Earth R API](https://github.com/ropensci/rnaturalearth)
