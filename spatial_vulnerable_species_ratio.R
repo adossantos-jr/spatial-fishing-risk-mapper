@@ -1,17 +1,17 @@
 # Mapping spatial Vulnerable Species Ratio 
-# for more information, go to https://github.com/adossantos-jr/spatial-fishing-risk-mapper
+# for more information, go to https://github.com/adossantos-jr/map-vulnerable-species-ratio
 
 # Setting your working directory
 
-setwd('your wd')
+setwd('C:/Users/alexa/OneDrive/Área de Trabalho/doutorado/psa/vsr_test_env')
 
 # Importing the species and vulnerability category data
 
 vuln_df = read.csv('test_vulnerability_class.csv')
 
-# Importing the species matrix 
+# Importing the species data 
 
-species_matrix = read.csv('test_species_matrix.csv')
+species_data = read.csv('test_species_data.csv')
 
 # Is your study area national or international?
 # If yes, state 'yes'
@@ -52,10 +52,10 @@ if (!require("rnarutalearthhires")) remotes::install_github("ropensci/rnaturalea
 
 # Importing bathymetry shapefile
 
-lon1 = min(species_matrix$longitude) + min(species_matrix$longitude)*.01 
-lon2 = max(species_matrix$longitude) - max(species_matrix$longitude)*.01
-lat1 = min(species_matrix$latitude) + min(species_matrix$latitude)*.01
-lat2 = max(species_matrix$latitude) - max(species_matrix$latitude)*.01
+lon1 = min(species_data$longitude) + min(species_data$longitude)*.01 
+lon2 = max(species_data$longitude) - max(species_data$longitude)*.01
+lat1 = min(species_data$latitude) + min(species_data$latitude)*.01
+lat2 = max(species_data$latitude) - max(species_data$latitude)*.01
 
 bathy = getNOAA.bathy(lon1 = lon1, 
                       lon2 = lon2,
@@ -68,7 +68,7 @@ bathy = getNOAA.bathy(lon1 = lon1,
 
 vul_map = data.frame(setNames(vuln_df$vul_category, vuln_df$species))
 
-vulclass_df = species_matrix[,-c(1:3)]
+vulclass_df = species_data[,-c(1:3)]
 colnames(vulclass_df) = vul_map$setNames.vuln_df.vul_category..vuln_df.species.
 
 vulclass_df = as.data.frame(sapply(split.default(vulclass_df, 
@@ -91,7 +91,7 @@ depth_cut = subset(bathy, V3 > -100 & V3 < 0)
 
 depth_cut$V3 = floor(depth_cut$V3)
 
-is.na(species_matrix$time)
+is.na(species_data$time)
 
 # Mapping
 
@@ -99,15 +99,15 @@ if (international_area == 'no') {
   
   states = ne_states(my_country, returnclass = 'sf')
   
-  if (all_na(species_matrix$time) == 'FALSE') {
+  if (all_na(species_data$time) == 'FALSE') {
   
   vsr_map = 
-    ggplot(species_matrix)+
+    ggplot(species_data)+
     geom_contour(data = bathy, 
                  aes(x = V1, y = V2, z = V3), color = 'grey50')+
     geom_text_repel(data = depth_cut, aes(x = V1, y = V2, label = V3),
                     size = 2, alpha = 0.3)+
-    geom_encircle(data = species_matrix, 
+    geom_encircle(data = species_data, 
                   aes(x = longitude, y = latitude, fill = vsr_cut),
                   s_shape = 1.2,
                   alpha = 0.4, expand = F, 
@@ -129,7 +129,7 @@ if (international_area == 'no') {
                                    show.limits = T))
   
   vsr_by_time = 
-    vsr_map + facet_wrap(~as.factor(time)) 
+    vsr_map + facet_wrap(~time) 
   
   ggsave(vsr_map,
          filename = 'vuln_species_ratio.png',
@@ -140,12 +140,12 @@ if (international_area == 'no') {
          dpi = my_dpi) } else {
            
            vsr_map = 
-             ggplot(species_matrix)+
+             ggplot(species_data)+
              geom_contour(data = bathy, 
                           aes(x = V1, y = V2, z = V3), color = 'grey50')+
              geom_text_repel(data = depth_cut, aes(x = V1, y = V2, label = V3),
                              size = 2, alpha = 0.3)+
-             geom_encircle(data = species_matrix, 
+             geom_encircle(data = species_data, 
                            aes(x = longitude, y = latitude, fill = vsr_cut),
                            s_shape = 1.2,
                            alpha = 0.4, expand = F, 
@@ -173,15 +173,15 @@ if (international_area == 'no') {
   
   co = ne_countries(scale = 'medium', returnclass = 'sf')  
 
-if (all_na(species_matrix$time) == 'FALSE') {
+if (all_na(species_data$time) == 'FALSE') {
   
   vsr_map = 
-    ggplot(species_matrix)+
+    ggplot(species_data)+
     geom_contour(data = bathy, 
                  aes(x = V1, y = V2, z = V3), color = 'grey50')+
     geom_text_repel(data = depth_cut, aes(x = V1, y = V2, label = V3),
                     size = 2, alpha = 0.3)+
-    geom_encircle(data = species_matrix, 
+    geom_encircle(data = species_data, 
                   aes(x = longitude, y = latitude, fill = vsr_cut),
                   s_shape = 1.2,
                   alpha = 0.4, expand = F, 
@@ -202,7 +202,7 @@ if (all_na(species_matrix$time) == 'FALSE') {
                                    title.position = 'bottom', 
                                    show.limits = T))
   vsr_by_time = 
-    vsr_map + facet_wrap(~as.factor(time))
+    vsr_map + facet_wrap(time)
   
   ggsave(vsr_map,
          filename = 'vuln_species_ratio.png',
@@ -214,12 +214,12 @@ if (all_na(species_matrix$time) == 'FALSE') {
   
 } else {
   vsr_map = 
-    ggplot(species_matrix)+
+    ggplot(species_data)+
     geom_contour(data = bathy, 
                  aes(x = V1, y = V2, z = V3), color = 'grey50')+
     geom_text_repel(data = depth_cut, aes(x = V1, y = V2, label = V3),
                     size = 2, alpha = 0.3)+
-    geom_encircle(data = species_matrix, 
+    geom_encircle(data = species_data, 
                   aes(x = longitude, y = latitude, fill = vsr_cut),
                   s_shape = 1.2,
                   alpha = 0.4, expand = F, 
@@ -246,20 +246,20 @@ if (all_na(species_matrix$time) == 'FALSE') {
       }   
 }
 
-if(all_na(species_matrix$time) == 'FALSE') {
+if(all_na(species_data$time) == 'FALSE') {
   
   data.frame(
-    time = species_matrix$time,
-    latitude = species_matrix$latitude,
-    longitude = species_matrix$longitude,
+    time = species_data$time,
+    latitude = species_data$latitude,
+    longitude = species_data$longitude,
     vulnerable_species_ratio = vsr) %>%
     write.csv('vulnerable_species_ratio_result.csv')
 
 } else {
   
   data.frame(
-    latitude = species_matrix$latitude,
-    longitude = species_matrix$longitude,
+    latitude = species_data$latitude,
+    longitude = species_data$longitude,
     vulnerable_species_ratio = vsr) %>%
     write.csv('vulnerable_species_ratio_result.csv')
   
