@@ -3,7 +3,7 @@
 
 # Setting your working directory
 
-setwd('your wd')
+setwd('your_wd')
 
 # Importing the species and vulnerability category data
 
@@ -109,9 +109,13 @@ if (international_area == 'no') {
                     size = 2, alpha = 0.3)+
     geom_encircle(data = species_data, 
                   aes(x = longitude, y = latitude, fill = vsr_cut),
-                  s_shape = 1.2,
-                  alpha = 0.4, expand = F, 
+                  s_shape = 1,
+                  alpha = 0.4, spread = 0.0001, 
                   color = 'transparent')+
+    geom_point(data = species_data, 
+               aes(x = longitude, y = latitude), 
+               pch = 16, color = 'black', fill = 'black', 
+               alpha = 0.4)+
     geom_sf(data = states) +
     coord_sf(xlim = c(lon1, lon2),
              ylim = c(lat1, lat2))+
@@ -147,9 +151,13 @@ if (international_area == 'no') {
                              size = 2, alpha = 0.3)+
              geom_encircle(data = species_data, 
                            aes(x = longitude, y = latitude, fill = vsr_cut),
-                           s_shape = 1.2,
-                           alpha = 0.4, expand = F, 
+                           s_shape = 1,
+                           alpha = 0.4, spread = 0.0001, 
                            color = 'transparent')+
+             geom_point(data = species_data, 
+                        aes(x = longitude, y = latitude), 
+                        pch = 16, color = 'black', fill = 'black', 
+                        alpha = 0.4)+
              geom_sf(data = states) +
              coord_sf(xlim = c(lon1, lon2),
                       ylim = c(lat1, lat2))+
@@ -180,12 +188,16 @@ if (all_na(species_data$time) == 'FALSE') {
     geom_contour(data = bathy, 
                  aes(x = V1, y = V2, z = V3), color = 'grey50')+
     geom_text_repel(data = depth_cut, aes(x = V1, y = V2, label = V3),
-                    size = 2, alpha = 0.3)+
+                    size = 2, alpha = 0.4)+
     geom_encircle(data = species_data, 
                   aes(x = longitude, y = latitude, fill = vsr_cut),
-                  s_shape = 1.2,
-                  alpha = 0.4, expand = F, 
+                  s_shape = 1,
+                  alpha = 0.4, spread = 0.0001, 
                   color = 'transparent')+
+    geom_point(data = species_data, 
+               aes(x = longitude, y = latitude), 
+               pch = 16, color = 'black', fill = 'black', 
+               alpha = 0.6)+
     geom_sf(data = co) +
     coord_sf(xlim = c(lon1, lon2),
              ylim = c(lat1, lat2))+
@@ -218,12 +230,16 @@ if (all_na(species_data$time) == 'FALSE') {
     geom_contour(data = bathy, 
                  aes(x = V1, y = V2, z = V3), color = 'grey50')+
     geom_text_repel(data = depth_cut, aes(x = V1, y = V2, label = V3),
-                    size = 2, alpha = 0.3)+
+                    size = 2, alpha = 0.4)+
     geom_encircle(data = species_data, 
                   aes(x = longitude, y = latitude, fill = vsr_cut),
-                  s_shape = 1.2,
-                  alpha = 0.4, expand = F, 
+                  s_shape = 1,
+                  alpha = 0.4, spread = 0.0001, 
                   color = 'transparent')+
+        geom_point(data = species_data, 
+                  aes(x = longitude, y = latitude), 
+                  pch = 16, color = 'black', fill = 'black', 
+                  alpha = 0.6)+
     geom_sf(data = states) +
     coord_sf(xlim = c(lon1, lon2),
              ylim = c(lat1, lat2))+
