@@ -53,7 +53,7 @@ As long as the country name is in English and state border shapefiles can be ret
 
 **The following parameters are numbers, and of `numeric` class instead of `character`. Therefore, no quotation marks should be used**:
 
--  Resolution of bathymetry data - This rountine retrieves bathymetric data from the U. S. National Oceanic and Atmospheric Administration (NOAA) servers. The default resolution of bathymetric data is 3 minutes (roughly 1.8 km/1.5 miles). Smaller resolutions will be more precise but may take longer to process. To change it, simply change the number `5` in this section (line 28):
+-  Resolution of bathymetry data - This rountine retrieves bathymety data from the U. S. National Oceanic and Atmospheric Administration (NOAA) servers. The default resolution of bathymetric data is 3 minutes (roughly 1.8 km/1.5 miles). Smaller resolutions will be more precise but may take longer to process. To change it, simply change the number `5` in this section (line 28):
 ```
 my_bathy_res = 3 
 ``` 
