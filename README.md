@@ -51,24 +51,18 @@ my_country = 'Brazil'
 ```
 As long as the country name is in English and state border shapefiles can be retrieved through [Natural Earth](https://www.naturalearthdata.com/downloads/10m-cultural-vectors/), state borders will appear. 
 
-- Coastal vs oceanic area - Is your study area coastal or oceanic? This parameter is used to select at what level bathymetry values will appear on the map. If coastal, values from 0 to -100 m will appear; if oceanic, values deeper than -100 m will appear. This can be specified in this section (line 28):
-```
-coast_or_ocean = 'coastal' 
-```    
-The default is `'coastal'`. To change it, simply replace it with `'oceanic'`.
-
 **The following parameters are numbers, and of `numeric` class instead of `character`. Therefore, no quotation marks should be used**:
 
--  Resolution of bathymetry data - This rountine retrieves bathymetric data from the U. S. National Oceanic and Atmospheric Administration (NOAA) servers. The default resolution of bathymetric data is 5 minutes (roughly 9.3 km/5.8 miles). Smaller resolutions will be more precise but may take longer to process. To change it, simply change the number `5` in this section (line 32):
+-  Resolution of bathymetry data - This rountine retrieves bathymetric data from the U. S. National Oceanic and Atmospheric Administration (NOAA) servers. The default resolution of bathymetric data is 3 minutes (roughly 1.8 km/1.5 miles). Smaller resolutions will be more precise but may take longer to process. To change it, simply change the number `5` in this section (line 28):
 ```
-my_bathy_res = 5 
+my_bathy_res = 3 
 ``` 
-- Vulnerable Species Ratio thresholds - The default thresholds are 0 from 0.25 for 'Low', 0.25 to 0.5 for 'Moderate', and 0.5 to 1 for 'High'. To change it, you can simply change the values in this section (line 36):
+- Vulnerable Species Ratio thresholds - The default thresholds are 0 from 0.25 for 'Low', 0.25 to 0.5 for 'Moderate', and 0.5 to 1 for 'High'. To change it, you can simply change the values in this section (line 32):
 ```
 my_thresholds = c(0, 0.25, 0.5, 1)
 ```
 Though beware that the limits (0 and 1) should not be changed; only the values in the middle.
-- Map resolution - Finally, you can select the desired resolution of your maps in dots per inches (DPI). Higher DPI will result in a higher resolution map, but may take longer to process. To change it, simply change the number of the default `600` (line 40): 
+- Map resolution - Finally, you can select the desired resolution of your maps in dots per inches (DPI). Higher DPI will result in a higher resolution map, but may take longer to process. To change it, simply change the number of the default `600` (line 36): 
 ```
 my_dpi = 600
 ````
