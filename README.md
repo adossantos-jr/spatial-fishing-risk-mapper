@@ -75,8 +75,8 @@ my_dpi = 600
 **And done!** Now, you can press Ctrl + A and then Ctrl + Enter to run all the script and get the results. A map with a delimited high-risk fishing area will appear in your working directory, alongside a .csv file with the Vulnerable Species Ratio value for each point. If temporal classifications are present, a figure with maps by temporal classification will also be generated.
 
 ### Limitations
-Since this method of defining high-risk fishing areas is based on simply encircling high-risk points, the spatialization itself may fail/not be interpretable if:
-- **Low spatial autocorrelation of vulnerability in all conditions**, that is, points next to each other are in no way more similar to each other than to other points regarding the Vulnerable Species Ratio. This can be due to the relation of the spatial scale with density of points (points too spread across a wide scale or too concentrated at a small scale), or due to the complexity of the fishery/ecosystem/community itself. Geostatistical techniques would be needed to properly spatialize vulnerability in these conditions.
+Since this method of defining high-risk fishing areas is based on a simple triagulation of high-risk points, the spatialization itself may fail/not be interpretable if:
+- **Low spatial autocorrelation of vulnerability in all conditions**, that is, points next to each other are in no way more similar to each other than to other points regarding the Vulnerable Species Ratio. This can be due to the relation of the spatial scale with density of points (points too spread across a wide scale or too concentrated at a small scale), or due to the complexity of the fishery/ecosystem/community itself. In short, this triagulation method does not account well for nuances in the spatial distribution of vulnerability. Geostatistical techniques are needed to properly spatialize vulnerability in these conditions.
 
 - **Estuarine or inland waters**, since this framework is focused on marine areas. A different mapping framework would be needed to spatialize vulnerability in continental waters.
 
