@@ -3,7 +3,7 @@
 
 # Setting your working directory
 
-setwd('C:/Users/alexa/OneDrive/Área de Trabalho/doutorado/psa/vsr_test_env')
+setwd('your wd')
 
 # Importing the species and vulnerability category data
 
