@@ -3,7 +3,7 @@
 
 # Setting your working directory
 
-setwd('your_wd')
+setwd('your wd')
 
 # Importing the species and vulnerability category data
 
@@ -23,13 +23,9 @@ international_area = 'no'
 
 my_country = 'Brazil'
 
-# Is your fishery coastal or oceanic?
+# Select desired resolution for bathymetry data (in minutes)
 
-coast_or_ocean = 'coastal'
-
-# Select desired resolution for bathymetric data (in minutes)
-
-my_bathy_res = 5 
+my_bathy_res = 3
 
 # Set your desired thresholds 
 
@@ -44,8 +40,8 @@ my_dpi = 600
 
 if (!require("pacman")) install.packages("pacman")
 
-pacman::p_load(ggplot2, rnaturalearth, sf, terra,
-               tidyterra, ggalt, ggspatial, ggpmisc, 
+pacman::p_load(ggplot2, rnaturalearth, sf, terra, raster,
+               tidyterra, ggalt, ggspatial, ggpmisc, tidyterra, 
                marmap, ggrepel, rnaturalearthdata, sjmisc)
 
 if (!require("rnarutalearthhires")) remotes::install_github("ropensci/rnaturalearthhires")
@@ -62,7 +58,9 @@ bathy = getNOAA.bathy(lon1 = lon1,
                       lat1 = lat1,
                       lat2 = lat2,
                       res = my_bathy_res, keep = F) %>%
-  as.xyz()
+  as.xyz() %>%
+  rasterFromXYZ() %>%
+  rast()
 
 # Calculating the vulnerable species ratio
 
@@ -83,186 +81,59 @@ vsr = ((vulclass_df$Moderate + vulclass_df$High) + 1)/(rowSums(vulclass_df) + 1)
 
 vsr_cut = cut(vsr, breaks = my_thresholds)
 
-if (coast_or_ocean == 'coastal') {
-depth_cut = subset(bathy, V3 > -100 & V3 < 0)
-} else { depth_cut = subset(bathy, V3 < -100)
-  
-}
-
-depth_cut$V3 = floor(depth_cut$V3)
-
-is.na(species_data$time)
-
 # Mapping
 
 if (international_area == 'no') {
   
-  states = ne_states(my_country, returnclass = 'sf')
+  geo_shp = ne_states(my_country, returnclass = 'sf')
   
-  if (all_na(species_data$time) == 'FALSE') {
-  
-  vsr_map = 
-    ggplot(species_data)+
-    geom_contour(data = bathy, 
-                 aes(x = V1, y = V2, z = V3), color = 'grey50')+
-    geom_text_repel(data = depth_cut, aes(x = V1, y = V2, label = V3),
-                    size = 2, alpha = 0.3)+
-    geom_encircle(data = species_data, 
-                  aes(x = longitude, y = latitude, fill = vsr_cut),
-                  s_shape = 1,
-                  alpha = 0.4, spread = 0.0001, 
-                  color = 'transparent')+
-    geom_point(data = species_data, 
-               aes(x = longitude, y = latitude), 
-               pch = 16, color = 'black', fill = 'black', 
-               alpha = 0.4)+
-    geom_sf(data = states) +
-    coord_sf(xlim = c(lon1, lon2),
-             ylim = c(lat1, lat2))+
-    labs(x = '', y = '', fill = 'Vulnerable Species Ratio')+
-    theme_bw()+
-    scale_fill_manual(values = c('forestgreen', 'yellow', 'red3'))+
-    theme(legend.position = 'bottom',
-          axis.text.x = element_text(angle = 60, vjust = .6,
-                                     color = 'black'),
-          axis.text.y = element_text(angle = 60, hjust = .6, 
-                                     color = 'black'))+
-    guides(fill = guide_colorsteps(barheight = 0.5, 
-                                   barwidth = 10,
-                                   title.position = 'bottom', 
-                                   show.limits = T))
+}else{
+  geo_shp = ne_countries(returnclass = 'sf') }
+
+vsr_map = 
+  ggplot(species_data)+
+  geom_spatraster_contour_text(data = bathy)+
+  geom_encircle(data = species_data, 
+                aes(x = longitude, y = latitude, fill = vsr_cut),
+                s_shape = 1,
+                alpha = 0.4, spread = 0.0001, 
+                color = 'transparent')+
+  geom_point(data = species_data, 
+             aes(x = longitude, y = latitude), 
+             pch = 16, color = 'black', fill = 'black', 
+             alpha = 0.6)+
+  geom_sf(data = geo_shp) +
+  coord_sf(xlim = c(lon1, lon2),
+           ylim = c(lat1, lat2))+
+  labs(x = '', y = '', fill = 'Vulnerable Species Ratio')+
+  theme_bw()+
+  scale_fill_manual(values = c('forestgreen', 'yellow', 'red3'))+
+  theme(legend.position = 'bottom',
+        axis.text.x = element_text(angle = 60, vjust = .6,
+                                   color = 'black'),
+        axis.text.y = element_text(angle = 60, hjust = .6, 
+                                   color = 'black'))+
+  guides(fill = guide_colorsteps(barheight = 0.5, 
+                                 barwidth = 10,
+                                 title.position = 'bottom', 
+                                 show.limits = T))
+
+if(all_na(species_data$time) == 'FALSE'){
   
   vsr_by_time = 
-    vsr_map + facet_wrap(~time) 
+    vsr_map + facet_wrap(~time)
   
   ggsave(vsr_map,
          filename = 'vuln_species_ratio.png',
+         h = 25/4,
+         w = 25/4,
          dpi = my_dpi)
   
   ggsave(vsr_by_time,
          filename = 'vuln_species_ratio_by_time.png',
-         dpi = my_dpi) } else {
-           
-           vsr_map = 
-             ggplot(species_data)+
-             geom_contour(data = bathy, 
-                          aes(x = V1, y = V2, z = V3), color = 'grey50')+
-             geom_text_repel(data = depth_cut, aes(x = V1, y = V2, label = V3),
-                             size = 2, alpha = 0.3)+
-             geom_encircle(data = species_data, 
-                           aes(x = longitude, y = latitude, fill = vsr_cut),
-                           s_shape = 1,
-                           alpha = 0.4, spread = 0.0001, 
-                           color = 'transparent')+
-             geom_point(data = species_data, 
-                        aes(x = longitude, y = latitude), 
-                        pch = 16, color = 'black', fill = 'black', 
-                        alpha = 0.4)+
-             geom_sf(data = states) +
-             coord_sf(xlim = c(lon1, lon2),
-                      ylim = c(lat1, lat2))+
-             labs(x = '', y = '', fill = 'Vulnerable Species Ratio')+
-             theme_bw()+
-             scale_fill_manual(values = c('forestgreen', 'yellow', 'red3'))+
-             theme(legend.position = 'bottom',
-                   axis.text.x = element_text(angle = 60, vjust = .6,
-                                              color = 'black'),
-                   axis.text.y = element_text(angle = 60, hjust = .6, 
-                                              color = 'black'))+
-             guides(fill = guide_colorsteps(barheight = 0.5, 
-                                            barwidth = 10,
-                                            title.position = 'bottom', 
-                                            show.limits = T))
-           ggsave(vsr_map,
-                  filename = 'vul_species_ratio.png',
-                  dpi = my_dpi)
-         }
-} else {
-  
-  co = ne_countries(scale = 'medium', returnclass = 'sf')  
-
-if (all_na(species_data$time) == 'FALSE') {
-  
-  vsr_map = 
-    ggplot(species_data)+
-    geom_contour(data = bathy, 
-                 aes(x = V1, y = V2, z = V3), color = 'grey50')+
-    geom_text_repel(data = depth_cut, aes(x = V1, y = V2, label = V3),
-                    size = 2, alpha = 0.4)+
-    geom_encircle(data = species_data, 
-                  aes(x = longitude, y = latitude, fill = vsr_cut),
-                  s_shape = 1,
-                  alpha = 0.4, spread = 0.0001, 
-                  color = 'transparent')+
-    geom_point(data = species_data, 
-               aes(x = longitude, y = latitude), 
-               pch = 16, color = 'black', fill = 'black', 
-               alpha = 0.6)+
-    geom_sf(data = co) +
-    coord_sf(xlim = c(lon1, lon2),
-             ylim = c(lat1, lat2))+
-    labs(x = '', y = '', fill = 'Vulnerable Species Ratio')+
-    theme_bw()+
-    scale_fill_manual(values = c('forestgreen', 'yellow', 'red3'))+
-    theme(legend.position = 'bottom',
-          axis.text.x = element_text(angle = 60, vjust = .6,
-                                     color = 'black'),
-          axis.text.y = element_text(angle = 60, hjust = .6, 
-                                     color = 'black'))+
-    guides(fill = guide_colorsteps(barheight = 0.5, 
-                                   barwidth = 10,
-                                   title.position = 'bottom', 
-                                   show.limits = T))
-  vsr_by_time = 
-    vsr_map + facet_wrap(time)
-  
-  ggsave(vsr_map,
-         filename = 'vuln_species_ratio.png',
+         h = 25/4,
+         w = 25/4,
          dpi = my_dpi)
-  
-  ggsave(vsr_by_time,
-         filename = 'vuln_species_ratio_by_time.png',
-         dpi = my_dpi)
-  
-} else {
-  vsr_map = 
-    ggplot(species_data)+
-    geom_contour(data = bathy, 
-                 aes(x = V1, y = V2, z = V3), color = 'grey50')+
-    geom_text_repel(data = depth_cut, aes(x = V1, y = V2, label = V3),
-                    size = 2, alpha = 0.4)+
-    geom_encircle(data = species_data, 
-                  aes(x = longitude, y = latitude, fill = vsr_cut),
-                  s_shape = 1,
-                  alpha = 0.4, spread = 0.0001, 
-                  color = 'transparent')+
-        geom_point(data = species_data, 
-                  aes(x = longitude, y = latitude), 
-                  pch = 16, color = 'black', fill = 'black', 
-                  alpha = 0.6)+
-    geom_sf(data = states) +
-    coord_sf(xlim = c(lon1, lon2),
-             ylim = c(lat1, lat2))+
-    labs(x = '', y = '', fill = 'Vulnerable Species Ratio')+
-    theme_bw()+
-    scale_fill_manual(values = c('forestgreen', 'yellow', 'red3'))+
-    theme(legend.position = 'bottom',
-          axis.text.x = element_text(angle = 60, vjust = .6,
-                                     color = 'black'),
-          axis.text.y = element_text(angle = 60, hjust = .6, 
-                                     color = 'black'))+
-    guides(fill = guide_colorsteps(barheight = 0.5, 
-                                   barwidth = 10,
-                                   title.position = 'bottom', 
-                                   show.limits = T))
-  ggsave(vsr_map,
-         filename = 'vul_species_ratio.png',
-         dpi = my_dpi)
-  
-      }   
-}
-
-if(all_na(species_data$time) == 'FALSE') {
   
   data.frame(
     time = species_data$time,
@@ -270,17 +141,18 @@ if(all_na(species_data$time) == 'FALSE') {
     longitude = species_data$longitude,
     vulnerable_species_ratio = vsr) %>%
     write.csv('vulnerable_species_ratio_result.csv')
-
+  
 } else {
   
-  data.frame(
-    latitude = species_data$latitude,
+  data.frame(latitude = species_data$latitude,
     longitude = species_data$longitude,
     vulnerable_species_ratio = vsr) %>%
     write.csv('vulnerable_species_ratio_result.csv')
   
+  ggsave(vsr_map,
+         filename = 'vul_species_ratio.png', 
+         h = 25/4,
+         w = 25/4,
+         dpi = my_dpi)
 }
-
-print('Done! check your working directory')
-
-
+print('Done! check your working directory for results')
