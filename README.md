@@ -39,7 +39,7 @@ species_matrix = read.csv('test_species_data.csv')
 As with the vulnerability classification data, you must change `test_species_data.csv` to the filename of your .csv file. **The species names in the vulnerability classification matrix and the species matrix must be the same**.
 
 ### Adapting parameters to your study area/fishery
-Here are instructions on how to state parameters designed to adapt the mapping to specific conditions. The following parameters are of a class which R calls `character`, so remember to always use quotation marks (either '' or "") as in the default specifications in the script. If you don't use quotation marks, R will identify your inputs as an `object` instead and generate an error message saying the object was not found. The parameters are:
+Here are instructions on how to state parameters designed to adapt the mapping to specific conditions. The following parameters are of a class which R calls `character`, so remember to always use quotation marks (either ' ' or " ") as in the default specifications in the script. If you don't use quotation marks, R will identify your inputs as an `object` instead and generate an error message saying the object was not found. The parameters are:
 
 - National vs international area - Is your area international or contained within a country? This parameter is used adapt the level of geographical borders within the map. If your study area is international, country borders will be used. To specify this, simply set the following parameter to 'yes' instead of the default 'no' (line 19):
 ```
@@ -79,7 +79,7 @@ Nevertheless, the information of Vulnerable Species Ratio is still valid and can
 ### Resources
 - [A coordinate converter](https://www.fcc.gov/media/radio/dms-decimal)
 - [PSA Web Application for single species](https://nmfs-ost.github.io/noaa-fit/PSA) 
-- [PSA API for multiple species at once](https://github.com/adossantos-jr/psa-multispecies)
+- [PSA routine for multiple species at once](https://github.com/adossantos-jr/psa-multispecies)
 - [IUCN Red List R API](https://github.com/ropensci/rredlist)
 - [Natural Earth R API](https://github.com/ropensci/rnaturalearth)
   
