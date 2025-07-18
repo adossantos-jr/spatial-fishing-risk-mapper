@@ -66,7 +66,7 @@ Though beware that the limits (0 and 1) should not be changed; only the values i
 ```
 my_dpi = 600
 ````
-**And done!** Now, you can press Ctrl + A and then Ctrl + Enter to run all the script and get the results. A map with a delimited high-risk fishing area will appear in your working directory, alongside a .csv file with the Vulnerable Species Ratio value for each point. If temporal classifications are present, a figure with maps by temporal classification will also be generated.
+**And done!** Now, you can press Ctrl + A and then Ctrl + Enter to run all the script and get the results. All the required packages will be installed/loaded automatically. A map with a delimited high-risk fishing area will appear in your working directory, alongside a .csv file with the Vulnerable Species Ratio value for each point. If temporal classifications are present, a figure with maps by temporal classification will also be generated.
 
 ### Limitations
 Since this method of defining high-risk fishing areas is based on a simple triagulation of high-risk points, the spatialization itself may fail/not be interpretable if:
