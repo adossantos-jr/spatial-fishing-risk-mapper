@@ -53,16 +53,22 @@ As long as the country name is in English and state border shapefiles can be ret
 
 **The following parameters are numbers, and of `numeric` class instead of `character`. Therefore, no quotation marks should be used**:
 
--  Resolution of bathymetry data - This rountine retrieves bathymety data from the U. S. National Oceanic and Atmospheric Administration (NOAA) servers. The default resolution of bathymetric data is 3 minutes (roughly 1.8 km/1.5 miles). Smaller resolutions will be more precise but may take longer to process. To change it, simply change the number `5` in this section (line 28):
+- Resolution of bathymetry data - This rountine retrieves bathymety data from the U. S. National Oceanic and Atmospheric Administration (NOAA) servers. The default resolution of bathymetric data is 3 minutes (roughly 1.8 km/1.5 miles). Smaller resolutions will be more precise but may take longer to process. To change it, simply change the number `5` in this section (line 28):
 ```
 my_bathy_res = 3 
-``` 
-- Vulnerable Species Ratio thresholds - The default thresholds are 0 from 0.25 for 'Low', 0.25 to 0.5 for 'Moderate', and 0.5 to 1 for 'High'. To change it, you can simply change the values in this section (line 32):
+```
+- Maximum an minimum depth limits you want to visualize on the map - Here is where you set the maximum and minimum depths for mapping the bathymetry. Since the test data is in a coastal area, defaults are set to `0` for minimum depth and `-150` for maximum depth. Adjust it according to your study area (line 32 and 33):
+
+```
+max_depth = -150
+min_depth = -0
+```
+- Vulnerable Species Ratio thresholds - The default thresholds are 0 from 0.25 for 'Low', 0.25 to 0.5 for 'Moderate', and 0.5 to 1 for 'High'. To change it, you can simply change the values in this section (line 37):
 ```
 my_thresholds = c(0, 0.25, 0.5, 1)
 ```
 Though beware that the limits (0 and 1) should not be changed; only the values in the middle.
-- Map resolution - Finally, you can select the desired resolution of your maps in dots per inches (DPI). Higher DPI will result in a higher resolution map, but may take longer to process. To change it, simply change the number of the default `600` (line 36): 
+- Map resolution - Finally, you can select the desired resolution of your maps in dots per inches (DPI). Higher DPI will result in a higher resolution map, but may take longer to process. To change it, simply change the number of the default `600` (line 41): 
 ```
 my_dpi = 600
 ````
