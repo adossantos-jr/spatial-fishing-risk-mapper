@@ -29,8 +29,8 @@ my_bathy_res = 1
 
 # Select the miminum and maximum depth you want to visualize on your map
   
-  max_depth = -5000
-  min_depth = -100
+  max_depth = -150
+  min_depth = 0
 
 # Set your desired thresholds 
 
@@ -159,4 +159,5 @@ if(all_na(species_data$time) == 'FALSE'){
 }
 
 print('Done! check your working directory for results')
+
 
