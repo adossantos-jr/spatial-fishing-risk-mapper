@@ -25,7 +25,12 @@ my_country = 'Brazil'
 
 # Select desired resolution for bathymetry data (in minutes)
 
-my_bathy_res = 3
+my_bathy_res = 1
+
+# Select the miminum and maximum depth you want to visualize on your map
+  
+  max_depth = -5000
+  min_depth = -100
 
 # Set your desired thresholds 
 
@@ -59,6 +64,7 @@ bathy = getNOAA.bathy(lon1 = lon1,
                       lat2 = lat2,
                       res = my_bathy_res, keep = F) %>%
   as.xyz() %>%
+  subset(V3 > max_depth & V3 < min_depth) %>%
   rasterFromXYZ() %>%
   rast()
 
@@ -98,10 +104,6 @@ vsr_map =
                 s_shape = 1,
                 alpha = 0.4, spread = 0.0001, 
                 color = 'transparent')+
-  geom_point(data = species_data, 
-             aes(x = longitude, y = latitude), 
-             pch = 16, color = 'black', fill = 'black', 
-             alpha = 0.6)+
   geom_sf(data = geo_shp) +
   coord_sf(xlim = c(lon1, lon2),
            ylim = c(lat1, lat2))+
@@ -155,4 +157,6 @@ if(all_na(species_data$time) == 'FALSE'){
          w = 25/4,
          dpi = my_dpi)
 }
+
 print('Done! check your working directory for results')
+
