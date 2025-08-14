@@ -61,7 +61,7 @@ my_bathy_res = 3
 
 ```
 max_depth = -150
-min_depth = -0
+min_depth = 0
 ```
 - Vulnerable Species Ratio thresholds - The default thresholds are 0 from 0.25 for 'Low', 0.25 to 0.5 for 'Moderate', and 0.5 to 1 for 'High'. To change it, you can simply change the values in this section (line 37):
 ```
