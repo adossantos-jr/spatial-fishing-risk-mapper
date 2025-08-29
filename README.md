@@ -53,7 +53,7 @@ As long as the country name is in English and state border shapefiles can be ret
 
 **The following parameters are numbers, and of `numeric` class instead of `character`. Therefore, no quotation marks should be used**:
 
-- Resolution of bathymetry data - This rountine retrieves bathymety data from the U. S. National Oceanic and Atmospheric Administration (NOAA) servers. The default resolution of bathymetric data is 3 minutes (roughly 1.8 km/1.5 miles). Smaller resolutions will be more precise but may take longer to process. To change it, simply change the number `5` in this section (line 28):
+- Resolution of bathymetry data - This rountine retrieves bathymety data from the U. S. National Oceanic and Atmospheric Administration (NOAA) servers. The default resolution of bathymetric data is 3 minutes (roughly 1.8 km/1.5 miles). Smaller resolutions will be more precise but may take longer to process. To change it, simply change the number `3` in this section (line 28):
 ```
 my_bathy_res = 3 
 ```
@@ -76,7 +76,9 @@ my_dpi = 600
 
 ### Limitations
 Since this method of defining high-risk fishing areas is based on a simple triagulation of high-risk points, the spatialization itself may fail/not be interpretable if:
-- **Low spatial autocorrelation of vulnerability in all conditions**, that is, points next to each other are in no way more similar to each other than to other points regarding the Vulnerable Species Ratio. This can be due to the relation of the spatial scale with density of points (points too spread across a wide scale or too concentrated at a small scale), or due to the complexity of the fishery/ecosystem/community itself. In short, this triagulation method does not account well for nuances in the spatial distribution of vulnerability. Geostatistical techniques are needed to properly spatialize vulnerability in these conditions.
+- **Low spatial autocorrelation of vulnerability in all conditions**, that is, points next to each other are in no way more similar to each other than to other points regarding the Vulnerable Species Ratio. This can be due to the relation of the spatial scale with density of points (points too spread across a wide scale or too concentrated at a small scale), or due to the complexity of the fishery/ecosystem/community its<img width="3750" height="3750" alt="vuln_species_ratio1" src="https://github.com/user-attachments/assets/cdddc02f-9039-4fd2-8131-f1f8cc0a0138" />
+<img width="3750" height="3750" alt="vuln_species_ratio1" src="https://github.com/user-attachments/assets/bc909186-43c2-4061-b2c7-fbb9beb5cd8b" />
+elf. In short, this triagulation method does not account well for nuances in the spatial distribution of vulnerability. Geostatistical techniques are needed to properly spatialize vulnerability in these conditions.
 
 - **Estuarine or inland waters**, since this framework is focused on marine areas. A different mapping framework would be needed to spatialize vulnerability in continental waters.
 
