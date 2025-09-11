@@ -76,8 +76,8 @@ my_dpi = 600
 
 <img width="500" height="500" alt="vuln_species_ratio1" src="https://github.com/user-attachments/assets/95562afa-6162-4f98-909d-3893a62fef71" />
 
-If temporal classifications are present, a figure with maps by temporal classification will also be generated.  graphical output should look like this:
 
+If temporal classifications are present, a figure with maps by temporal classification will also be generated. 
 ### Limitations
 Since this method of defining high-risk fishing areas is based on a simple triagulation of high-risk points, the spatialization itself may fail/not be interpretable if:
 - **Low spatial autocorrelation of vulnerability in all conditions**, that is, points next to each other are in no way more similar to each other than to other points regarding the Vulnerable Species Ratio. This can be due to the relation of the spatial scale with density of points (points too spread across a wide scale or too concentrated at a small scale), or due to the complexity of the fishery/ecosystem/community itself. In short, this triagulation method does not account well for nuances in the spatial distribution of vulnerability. Geostatistical techniques are needed to properly spatialize vulnerability in these conditions.
