@@ -1,9 +1,9 @@
 # Mapping spatial Vulnerable Species Ratio 
 # for more information, go to https://github.com/adossantos-jr/spatial-fishing-risk-mapper
 
-# Setting your working directory
+# Getting your working directory
 
-setwd('your wd')
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path)) 
 
 # Importing the species and vulnerability category data
 
@@ -159,6 +159,7 @@ if(all_na(species_data$time) == 'FALSE'){
 }
 
 print('Done! check your working directory for results')
+
 
 
 
