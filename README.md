@@ -8,7 +8,6 @@ This routine is built in the R language. To use it, you must download and instal
 ##### Setting your working directory
 The first step is selecting your working directory, that is, the folder in which your data must be and where outputs will appear. This will be selected automatically based on where your script is.
 
-To better understand working directories in R, a comprehensive guide can be found [here](https://intro2r.com/work-d.html).
 ##### Data structure and importing
 This routine requires two simple data files: a vulnerability classification file and a species by sites file. Both must be .csv (comma-separated values) files. If you use software such as Microsoft Excel or Google Sheets to create your data frames, remember to convert them to .csv file before importing to R. The data frames are:
 
