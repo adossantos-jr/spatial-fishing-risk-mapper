@@ -2,7 +2,7 @@
 # for more information, go to https://github.com/adossantos-jr/spatial-fishing-risk-mapper
 
 # Getting your working directory
-
+if (!require("rstudioapi")) install.packages("rstudioapi")
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path)) 
 
 # Importing the species and vulnerability category data
