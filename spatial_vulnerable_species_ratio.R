@@ -10,32 +10,32 @@ pacman::p_load(shiny, ggplot2, rnaturalearth, sf, terra,
   
   sidebarLayout(
     sidebarPanel(
-      h4("1. Upload Datasets"),
-      fileInput("vuln_file", "Upload Vulnerability Class CSV",
+      h4("1. Upload datasets"),
+      fileInput("vuln_file", "Upload vulnerability class data",
                 accept = c(".csv")),
-      fileInput("species_file", "Upload Species Data CSV",
+      fileInput("species_file", "Upload species matrix",
                 accept = c(".csv")),
       
       hr(),
       
-      h4("2. Select Characteristics"),
-      selectInput("international", "International Study Area?",
+      h4("2. Specify your analysis"),
+      selectInput("international", "International study area?",
                   choices = c("no", "yes"),
                   selected = "no"),
       
       conditionalPanel(
         condition = "input.international == 'no'",
-        textInput("country", "Country Name (in English)", 
+        textInput("country", "Country name (in English)", 
                   value = "Brazil")
       ),
       
-      numericInput("bathy_res", "Bathymetry Resolution (minutes)",
+      numericInput("bathy_res", "Bathymetry resolution (minutes)",
                    value = 1, min = 0.1, max = 10, step = 0.1),
       
-      numericInput("max_depth", "Maximum Depth",
+      numericInput("max_depth", "Maximum depth",
                    value = -150, step = 10),
       
-      numericInput("min_depth", "Minimum Depth",
+      numericInput("min_depth", "Minimum depth",
                    value = 0, step = 10),
       
       textInput("thresholds", "Thresholds (comma-separated)",
@@ -46,14 +46,14 @@ pacman::p_load(shiny, ggplot2, rnaturalearth, sf, terra,
       
       hr(),
       
-      h4("3. Run Analysis"),
+      h4("3. Run analysis"),
       actionButton("run_analysis", "Generate Map & Results",
                    class = "btn-primary btn-lg btn-block")
     ),
     
     mainPanel(
       tabsetPanel(
-        tabPanel("Map Visualization",
+        tabPanel("Map visualization",
                  br(),
                  plotOutput("vsr_map", height = "600px"),
                  br(),
@@ -65,7 +65,7 @@ pacman::p_load(shiny, ggplot2, rnaturalearth, sf, terra,
                  downloadButton("download_map", "Download Map (PNG)")
         ),
         
-        tabPanel("Results Table",
+        tabPanel("Results table",
                  br(),
                  DTOutput("results_table"),
                  br(),
