@@ -2,7 +2,7 @@
 This is a shiny app built for quickly mapping high-risk fishing areas based on the ratio of vulnerable species caught in fishing points. This approach was originally intended for viewing vulnerability spatially in highly rich multispecies coastal fisheries using Productivity-Susceptibility Analysis (PSA) for vulnerability classifications. However, this routine can be applied to any type of fishery, and using any kind of vulnerability classification for species (such as IUCN Red List categories). As of right now, this routine applies a very simple triagulation method with various limitations. Geostatistical methods will be added in the future. 
 
 ### How to use
-This app is built in the R language and runs in your local R server. . To use it, you must download and install the latest version of [R](https://www.r-project.org/), and the latest version of the [RStudio integrated development environment (IDE)](https://posit.co/download/rstudio-desktop/). You can then download the [R script file](https://github.com/adossantos-jr/spatial-fishing-risk-mapper/blob/main/spatial_fishing_risk_mapper.R) and open it in RStudio.
+This app is built in the R language and runs in your local R server. To use it, you must download and install the latest version of [R](https://www.r-project.org/), and the latest version of the [RStudio integrated development environment (IDE)](https://posit.co/download/rstudio-desktop/). You can then download the [R script file](https://github.com/adossantos-jr/spatial-fishing-risk-mapper/blob/main/spatial_fishing_risk_mapper.R) and open it in RStudio.
 
 #### Importing your data
 ##### Data structure and importing
