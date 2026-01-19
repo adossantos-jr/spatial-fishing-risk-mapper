@@ -40,12 +40,12 @@ Finally, scroll down and click the Generate Map & Results button. **And done!** 
 
 
 ### Limitations
-Since this method of defining high-risk fishing areas is based on a simple triagulation of high-risk points, the spatialization itself may fail/not be interpretable if:
-- **Low spatial autocorrelation of vulnerability in all conditions**, that is, points next to each other are in no way more similar to each other than to other points regarding the Vulnerable Species Ratio. This can be due to the relation of the spatial scale with density of points (points too spread across a wide scale or too concentrated at a small scale), or due to the complexity of the fishery/ecosystem/community itself. In short, this triagulation method does not account well for nuances in the spatial distribution of vulnerability. Geostatistical techniques are needed to properly spatialize vulnerability in these conditions.
+Since this method of defining high-risk fishing areas is based on a simple triagulation of high-risk points, the mapping itself may not be interpretable if:
+- **Low spatial autocorrelation of vulnerability in all conditions**, that is, points next to each other are in no way more similar to each other than to other points regarding the Vulnerable Species Ratio. This can be due to the relation of the spatial scale with density of points (points too spread across a wide scale or too concentrated at a small scale), or due to the complexity of the fishery/ecosystem/community itself. In short, this triagulation method does not account well for nuances in the spatial distribution of vulnerability. Geostatistical techniques are needed to properly map vulnerability in these conditions.
 
-- **Estuarine or inland waters**, since this framework is focused on marine areas. A different mapping framework would be needed to spatialize vulnerability in continental waters.
+- **Estuarine or inland waters**, since this framework is focused on marine areas. A different mapping framework would be needed to map vulnerability in continental waters.
 
-Nevertheless, the information of Vulnerable Species Ratio is still valid and can be useful in these conditions. So, even if mapping is unviable using this method, the resulting .csv file can still be of use.
+Nevertheless, the information of Vulnerable Species Ratio is still valid and can be useful in these conditions. So, even if mapping is unviable using this method, the resulting .csv file may still be useful.
 
 ### Resources
 - [A coordinate converter](https://www.fcc.gov/media/radio/dms-decimal)
