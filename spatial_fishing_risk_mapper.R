@@ -11,16 +11,16 @@ ui = fluidPage(
   
   sidebarLayout(
     sidebarPanel(
-      h4("1. Upload Datasets"),
-      fileInput("vuln_file", "Upload Vulnerability Class CSV",
+      h4("1. Upload datasets"),
+      fileInput("vuln_file", "Upload vulnerability class CSV",
                 accept = c(".csv")),
-      fileInput("species_file", "Upload Species Data CSV",
+      fileInput("species_file", "Upload species data CSV",
                 accept = c(".csv")),
       
       hr(),
       
-      h4("2. Select Characteristics"),
-      selectInput("international", "International Study Area?",
+      h4("2. Customization"),
+      selectInput("international", "International study area?",
                   choices = c("no", "yes"),
                   selected = "no"),
       
