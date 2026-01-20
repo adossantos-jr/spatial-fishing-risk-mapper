@@ -1,31 +1,32 @@
 if (!require("pacman")) install.packages("pacman")
-if (!require("rnaturalearthdata")) install.packages("rnaturalearthdata")
 
-pacman::p_load(shiny, ggplot2, rnaturalearth, sf, terra,
+pacman::p_load(shiny, remotes, ggplot2, rnaturalearth, sf, terra, raster,
                tidyterra, ggalt, ggspatial, ggpmisc, marmap, 
-               ggrepel, sjmisc, DT)
+               ggrepel, rnaturalearthdata, sjmisc, DT)
 
- ui = fluidPage(
+if (!require('rnaturalearthhires')) remotes::install_github("ropensci/rnaturalearthhires")
+
+ui = fluidPage(
   titlePanel("Spatial fishing risk mapper"),
   
   sidebarLayout(
     sidebarPanel(
-      h4("1. Upload datasets"),
-      fileInput("vuln_file", "Upload vulnerability class data",
+      h4("1. Upload Datasets"),
+      fileInput("vuln_file", "Upload Vulnerability Class CSV",
                 accept = c(".csv")),
-      fileInput("species_file", "Upload species matrix",
+      fileInput("species_file", "Upload Species Data CSV",
                 accept = c(".csv")),
       
       hr(),
       
-      h4("2. Specify your analysis"),
-      selectInput("international", "International study area?",
+      h4("2. Select Characteristics"),
+      selectInput("international", "International Study Area?",
                   choices = c("no", "yes"),
                   selected = "no"),
       
       conditionalPanel(
         condition = "input.international == 'no'",
-        textInput("country", "Country name (in English)", 
+        textInput("country", "Country Name (in English)", 
                   value = "Brazil")
       ),
       
@@ -38,7 +39,7 @@ pacman::p_load(shiny, ggplot2, rnaturalearth, sf, terra,
       numericInput("min_depth", "Minimum depth",
                    value = 0, step = 10),
       
-      textInput("thresholds", "Thresholds (comma-separated)",
+      textInput("thresholds", "Thresholds",
                 value = "0, 0.25, 0.5, 1"),
       
       numericInput("dpi", "Map DPI",
@@ -47,7 +48,7 @@ pacman::p_load(shiny, ggplot2, rnaturalearth, sf, terra,
       hr(),
       
       h4("3. Run analysis"),
-      actionButton("run_analysis", "Generate Map & Results",
+      actionButton("run_analysis", "Generate map & results",
                    class = "btn-primary btn-lg btn-block")
     ),
     
@@ -101,20 +102,31 @@ server <- function(input, output, session) {
       my_thresholds = as.numeric(unlist(strsplit(input$thresholds, ",")))
       
       # Get bathymetry data
-      incProgress(0.2, detail = "Fetching bathymetry data...")
-      lon1 = min(species_data$longitude) + min(species_data$longitude) * 0.01 
-      lon2 = max(species_data$longitude) - max(species_data$longitude) * 0.01
-      lat1 = min(species_data$latitude) + min(species_data$latitude) * 0.01
-      lat2 = max(species_data$latitude) - max(species_data$latitude) * 0.01
+      incProgress(0.2, detail = "Retrieving bathymetry data...")
+      lon1 = min(species_data$longitude) - abs(min(species_data$longitude)) * 0.01 
+      lon2 = max(species_data$longitude) + abs(max(species_data$longitude)) * 0.01
+      lat1 = min(species_data$latitude) - abs(min(species_data$latitude)) * 0.01
+      lat2 = max(species_data$latitude) + abs(max(species_data$latitude)) * 0.01
       
       bathy = tryCatch({
-        getNOAA.bathy(lon1 = lon1, lon2 = lon2, lat1 = lat1, lat2 = lat2,
-                      res = input$bathy_res, keep = FALSE) %>%
-          as.xyz() %>%
-          subset(V3 > input$max_depth & V3 < input$min_depth) %>%
-          rasterFromXYZ() %>%
-          rast()
-      }, error = function(e) NULL)
+        bathy_raw = getNOAA.bathy(lon1 = lon1, lon2 = lon2, 
+                                  lat1 = lat1, lat2 = lat2,
+                                  res = input$bathy_res, keep = FALSE)
+        
+        bathy_xyz = as.xyz(bathy_raw)
+        bathy_subset = subset(bathy_xyz, V3 > input$max_depth & V3 < input$min_depth)
+        
+        if(nrow(bathy_subset) > 0) {
+          bathy_raster = rasterFromXYZ(bathy_subset)
+          bathy_terra = rast(bathy_raster)
+          bathy_terra
+        } else {
+          NULL
+        }
+      }, error = function(e) {
+        message("Bathymetry error: ", e$message)
+        NULL
+      })
       
       # Calculate vulnerable species ratio
       incProgress(0.4, detail = "Calculating VSR...")
@@ -137,7 +149,7 @@ server <- function(input, output, session) {
       vsr_cut = cut(vsr, breaks = my_thresholds)
       
       # Get geographic shapefile
-      incProgress(0.6, detail = "Loading geographic data...")
+      incProgress(0.6, detail = "Loading shapefile(s)...")
       if (input$international == 'no') {
         geo_shp = ne_states(input$country, returnclass = 'sf')
       } else {
@@ -145,7 +157,7 @@ server <- function(input, output, session) {
       }
       
       # Create map
-      incProgress(0.8, detail = "Generating map...")
+      incProgress(0.8, detail = "Generating map(s)...")
       vsr_map_plot = ggplot(species_data) +
         geom_encircle(data = species_data, 
                       aes(x = longitude, y = latitude, fill = vsr_cut),
