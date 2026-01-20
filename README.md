@@ -1,4 +1,4 @@
-## Mapping high-risk fishing areas through species vulnerability
+## Mapping high-risk fishing areas through vulnerable species proportion
 This is a shiny app built for quickly mapping high-risk fishing areas based on the ratio of vulnerable species caught in fishing points. This approach was originally intended for viewing vulnerability spatially in highly rich multispecies coastal fisheries using Productivity-Susceptibility Analysis (PSA) for vulnerability classifications. However, this routine can be applied to any type of fishery, and using any kind of vulnerability classification for species (such as IUCN Red List categories). As of right now, this routine applies a very simple triagulation method with various limitations. Geostatistical methods will be added in the future. 
 
 ### How to use
@@ -10,15 +10,14 @@ This routine requires two simple data files: a vulnerability classification file
 
 *The vulnerability classsification data* - The vulnerability classification data must contain two columns: a species column and a vulnerability category column, assigning a respective vulnerability category for each species. Species must be assigned one of three vulnerability categories: 'Low', 'Moderate' and 'High', since it is based on PSA (check the resources for more information). Due to the way that high-risk areas are defined, this can also be a binary classification of 'Low' and 'High' (If using IUCN Red List categories, for example, threatened species (>=VU) can be 'High', and non-threatened species can be 'Low'). For a template, see the [test data](https://github.com/adossantos-jr/spatial-fishing-risk-mapper/blob/main/test_vulnerability_class.csv). 
 
-*The species by sites data*: The species by sites data is structured very much like matrices tradionally used in ecology, with species as columns and sites as rows. However, in this case, the first three columns of the species matrix must be `time`, `latitude` and `longitude`. See the [test data](https://github.com/adossantos-jr/spatial-fishing-risk-mapper/blob/main/test_species_data.csv) for a template  
+*The species by sites data*: The species by sites data is structured very much like a traditional ecological matrix, with species as columns and sites as rows. However, in this case, the first three columns of the species matrix must be `time`, `latitude` and `longitude`. See the [test data](https://github.com/adossantos-jr/spatial-fishing-risk-mapper/blob/main/test_species_data.csv) for a template  
 
 - The column `time` refers to any temporal classification of the fishing points (i. e. seasons, months, years). This column will be used to generate one map per each temporal classification (i. e. for seasons, one map per season), besides the main map. If there is no temporal classification in your data, this column must still exist, but it must be empty (filled with `NA` values). If `time` is empty, only the main map (your full study area with all inputed points) will be generated.
 - 
 - The columns `latitude` and `longitude` are the respective latitude and longitude of fishing points in decimal degrees (fully numerical values; negative values for South and West hemispheres). If your coordinates are in another format, they must be converted to decimal. A useful coordinate converter from degrees/minutes/seconds to decimal can be found in the resources section. More information on coordinate systems can be found [here](https://www.uaf.edu/ces/publications/database/agriculture-livestock/understanding-mapping-systems.php).
 - 
 - The species columns can be filled with any kind of abundance/density/biomass/count metric.
-
-As with the vulnerability classification data, you must change `test_species_data.csv` to the filename of your .csv file. **The species names in the vulnerability classification matrix and the species matrix must be the same**.
+- **The species names in the vulnerability classification matrix and the species matrix must be the same**.
 
 ### Running the App
 After opening the [script](https://github.com/adossantos-jr/spatial-fishing-risk-mapper/blob/main/spatial_fishing_risk_mapper.R) in RStudio, press Ctrl + A and then Ctrl + Enter to run the App. All the required packages will be installed/loaded automatically. When you first run this app, the automatic package installation may take up to several minutes depending on your internet connection and what packagews you already have installed. After that, it should take a few seconds. 
@@ -35,8 +34,7 @@ Here are instructions on how to fill parameters designed to adapt the mapping to
   
 Finally, scroll down and click the Generate Map & Results button. **And done!** A map with a delimited high-risk fishing area will appear in your working directory, alongside a .csv file with the Vulnerable Species Ratio value for each point. If temporal classifications are present, a figure with maps by temporal classification will also be generated. The output in the UI should look like this:
 
-<img width="934" height="650" alt="spatialfishingrisk" src="https://github.com/user-attachments/assets/64312775-4275-4898-8a83-e71b3658f321" />
-
+<img width="903" height="641" alt="ui_spatial" src="https://github.com/user-attachments/assets/0ba9cdc5-a9a2-4553-8362-31732017902d" />
 
 
 ### Limitations
