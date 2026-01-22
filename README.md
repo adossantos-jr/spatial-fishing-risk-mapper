@@ -1,10 +1,15 @@
 ## Mapping high-risk fishing areas through vulnerable species proportion
 This is a shiny app built for quickly mapping high-risk fishing areas based on the ratio of vulnerable species caught in fishing points. This approach was originally intended for viewing vulnerability spatially in highly rich multispecies coastal fisheries using Productivity-Susceptibility Analysis (PSA) for vulnerability classifications. However, this routine can be applied to any type of fishery, and using any kind of vulnerability classification for species (such as IUCN Red List categories). As of right now, this routine applies a very simple triagulation method with various limitations. Geostatistical methods will be added in the future. 
 
-### How to use
-This app is built in the R language and runs in your local R server. To use it, you must download and install the latest version of [R](https://www.r-project.org/), and the latest version of the [RStudio integrated development environment (IDE)](https://posit.co/download/rstudio-desktop/). You can then download the [R script file](https://github.com/adossantos-jr/spatial-fishing-risk-mapper/blob/main/spatial_fishing_risk_mapper.R) and open it in RStudio.
+### Instructions
+#### Running the app
+This app is built in the R language and runs on your local R server. To use it, you must download and install the latest version of [R](https://www.r-project.org/). You can then download the [[R script file](https://github.com/adossantos-jr/spatial-fishing-risk-mapper/blob/main/spatial_fishing_risk_mapper.R) and run it on your terminal. 
 
-#### Importing your data
+Using an Integrated Development Environment (IDE) such as [RStudio](https://posit.co/download/rstudio-desktop/) is recommended. If you have the script open in RStudio or a similar IDE, press Ctrl+A to select the whole script and the Ctrl+Enter to run it. The app window should appear then. 
+
+All required packages should be installed/loaded automatically. When you first run this app, the automatic package installation may take up to several minutes depending on your internet connection and what packages you already have installed. After that, it should take a few seconds.
+
+#### Using the app
 ##### Data structure and importing
 This routine requires two simple data files: a vulnerability classification file and a species by sites file. Both must be .csv (comma-separated values) files. If you use software such as MS Excel or Google Sheets to create your data frames, remember to convert them to a .csv file before importing to R. The data frames are:
 
@@ -19,10 +24,7 @@ This routine requires two simple data files: a vulnerability classification file
 - The species columns can be filled with any kind of abundance/density/biomass/count metric.
 - **The species names in the vulnerability classification matrix and the species matrix must be the same**.
 
-### Running the App
-After opening the [script](https://github.com/adossantos-jr/spatial-fishing-risk-mapper/blob/main/spatial_fishing_risk_mapper.R) in RStudio, press Ctrl + A and then Ctrl + Enter to run the App. All the required packages will be installed/loaded automatically. When you first run this app, the automatic package installation may take up to several minutes depending on your internet connection and what packagews you already have installed. After that, it should take a few seconds. 
-
-### Adapting parameters to your study area/fishery
+#### Adapting parameters to your study area/fishery
 Here are instructions on how to fill parameters designed to adapt the mapping to specific conditions. 
 
 - National vs international area - Is your area international or contained within a country? This parameter is used adapt the level of geographical borders within the map. If your study area is international, country borders will be used. 
@@ -32,7 +34,7 @@ Here are instructions on how to fill parameters designed to adapt the mapping to
 - Vulnerable Species Ratio thresholds - The default thresholds are 0 from 0.25 for 'Low', 0.25 to 0.5 for 'Moderate', and 0.5 to 1 for 'High'. Remember that this is a proportion, ranging from 0 (no vulnerable species) to 1 (all vulnerable species).
 - Map resolution - Finally, you can select the desired resolution of your maps in dots per inches (DPI). Higher DPI will result in a higher resolution map, but may take longer to process.
   
-Finally, scroll down and click the Generate Map & Results button. **And done!** A map with a delimited high-risk fishing area will appear in your working directory, alongside a .csv file with the Vulnerable Species Ratio value for each point. If temporal classifications are present, a figure with maps by temporal classification will also be generated. The output in the UI should look like this:
+Finally, scroll down and click the Generate map & results button. **And done!** A map with a delimited high-risk fishing area will appear in your working directory, alongside a .csv file with the Vulnerable Species Ratio value for each point. If temporal classifications are present, a figure with maps by temporal classification will also be generated. The output in the UI should look like this:
 
 <img width="903" height="641" alt="ui_spatial" src="https://github.com/user-attachments/assets/0ba9cdc5-a9a2-4553-8362-31732017902d" />
 
