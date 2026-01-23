@@ -3,7 +3,7 @@ This is a shiny app built for quickly mapping high-risk fishing areas based on t
 
 ### Instructions
 #### Running the app
-This app is built in the R language and runs on your local R server. To use it, you must download and install the latest version of [R](https://www.r-project.org/). You can then download the [[R script file](https://github.com/adossantos-jr/spatial-fishing-risk-mapper/blob/main/spatial_fishing_risk_mapper.R) and run it on your terminal. 
+This app is built in the R language and runs on your local R server. To use it, you must download and install the latest version of [R](https://www.r-project.org/). You can then download the [R script file](https://github.com/adossantos-jr/spatial-fishing-risk-mapper/blob/main/spatial_fishing_risk_mapper.R) and run it on your terminal. 
 
 Using an Integrated Development Environment (IDE) such as [RStudio](https://posit.co/download/rstudio-desktop/) is recommended. If you have the script open in RStudio or a similar IDE, press Ctrl+A to select the whole script and the Ctrl+Enter to run it. The app window should appear then. 
 
